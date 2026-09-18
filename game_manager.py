@@ -1,5 +1,5 @@
 import consts
-
+from snake import Snake
 from cell import Cell
 
 
@@ -55,4 +55,12 @@ class GameManager:
         return ret
 
     def handle(self, keys):
-        pass
+        for item in self.snakes:
+            item.handle(keys)
+            item.next_move()
+        self.turn += 1
+        if self.turn % 10 == 0:
+            xandy = self.get_next_fruit_pos() 
+            self.get_cell(xandy).set_color(consts.fruit_color)
+
+                
