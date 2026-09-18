@@ -1,6 +1,5 @@
 import consts
 
-from game_manager import GameManager
 
 class Snake:
 
@@ -27,29 +26,28 @@ class Snake:
         return x
 
     def next_move(self):
-        if self.direction == "RIGHT":
-            consts.sx = self.val(self.get_head()[0] + 1)
-            consts.sy = self.get_head()[1]
-        elif self.direction == "LEFT":
-            consts.sx = self.val(self.get_head()[0] - 1)
-            consts.sy = self.get_head()[1]
-        elif self.direction == "DOWN":
-            consts.sy = self.val(self.get_head()[1] + 1)
-            consts.sx = self.get_head()[0]
-        elif self.direction == "UP":
-            consts.sy = self.val(self.get_head()[1] - 1)
-            consts.sx = self.get_head()[0]
+        sx = self.get_head()[0]
+        sy = self.get_head()[1]
 
-        if self.game.get_cell((consts.sy, consts.sx)).color == consts.back_color:
-            self.cells.append((consts.sx, consts.sy))
+        if self.direction == "RIGHT":
+            sx = self.val(sx + 1)
+        elif self.direction == "LEFT":
+            sx = self.val(sx - 1)
+        elif self.direction == "DOWN":
+            sy = self.val(sy + 1)
+        elif self.direction == "UP":
+            sy = self.val(sy - 1)
+
+        if self.game.get_cell((sx, sy)).color == consts.back_color:
+            self.cells.append((sx, sy))
             old_tail = self.cells[0]
             self.cells.remove(self.cells[0])
             self.game.get_cell(old_tail).set_color(consts.back_color)
-            self.game.get_cell((consts.sy, consts.sx)).set_color(self.color)
+            self.game.get_cell((sx, sy)).set_color(self.color)
 
-        elif self.game.get_cell((consts.sy, consts.sx)).color == consts.fruit_color:
-            self.cells.append((consts.sx, consts.sy))
-            self.game.get_cell((consts.sy, consts.sx)).set_color(self.color)
+        elif self.game.get_cell((sx, sy)).color == consts.fruit_color:
+            self.cells.append((sx, sy))
+            self.game.get_cell((sx, sy)).set_color(self.color)
 
         else:
             self.game.kill(self)
